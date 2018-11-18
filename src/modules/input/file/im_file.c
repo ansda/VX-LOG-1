@@ -640,7 +640,7 @@ static boolean im_file_add_file(nx_module_t *module,
         file->filepos = filepos;
         file->current_line_number = linenumber;
         file->name = apr_pstrdup(pool, fname);
-        file->line_number_key_name = apr_pstrcat(pool, fname, "Count", NULL);
+        // file->line_number_key_name = apr_pstrcat(pool, fname, "Count", NULL);
 
         if (imconf->renamecheck == TRUE) {
             nx_im_file_input_t *dupe;
@@ -949,7 +949,7 @@ static void im_file_read(nx_module_t *module) {
             (logdata = imconf->currsrc->input->inputfunc->func(
                     imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
             //log_info("read: [%s]", logdata->raw_event->buf);
-            im_file_linenumber_recorder(imconf, logdata);
+            // im_file_linenumber_recorder(imconf, logdata);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
             evcnt++;
@@ -968,7 +968,7 @@ static void im_file_read(nx_module_t *module) {
             if ((imconf->currsrc->input != NULL) &&
                 (logdata = imconf->currsrc->input->inputfunc->func(
                         imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
-                im_file_linenumber_recorder(imconf, logdata);
+                // im_file_linenumber_recorder(imconf, logdata);
                 nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
                 got_data = TRUE;
                 evcnt++;
@@ -996,7 +996,7 @@ static void im_file_read(nx_module_t *module) {
                     if ((file->input != NULL) && (file->input->inputfunc->flush != NULL)) {
                         if ((logdata = file->input->inputfunc->flush(file->input,
                                                                      file->input->inputfunc->data)) != NULL) {
-                            im_file_linenumber_recorder(imconf, logdata);
+                            // im_file_linenumber_recorder(imconf, logdata);
                             nx_module_add_logdata_input(module, file->input, logdata);
                             evcnt++;
                         }
@@ -1193,9 +1193,9 @@ static void im_file_stop(nx_module_t *module) {
             nx_config_cache_set_int(module->name, file->name, (int) file->filepos);
             log_debug("module %s saved position %ld for %s",
                       module->name, (long int) file->filepos, file->name);
-            nx_config_cache_set_int(module->name, file->line_number_key_name, file->current_line_number);
-            log_debug("module %s saved line_number %ld for %s",
-                      module->name, file->current_line_number, file->name);
+            // nx_config_cache_set_int(module->name, file->line_number_key_name, file->current_line_number);
+            // log_debug("module %s saved line_number %ld for %s",
+                    //   module->name, file->current_line_number, file->name);
         }
         apr_hash_set(imconf->files, fname, keylen, NULL);
         ASSERT(file->pool != NULL);

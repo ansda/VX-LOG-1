@@ -1,5 +1,5 @@
 AC_PREREQ(2.59)
-AC_INIT([nxlog-ce], m4_esyscmd([./version.sh]), [support@nxlog.org], [nxlog-ce])
+AC_INIT([nxlog-ce], 2.10)
 
 m4_define([serial_tests], [
     m4_esyscmd([automake --version |
