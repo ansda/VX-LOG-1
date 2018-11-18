@@ -24,17 +24,6 @@
 #define IM_FILE_DEFAULT_POLL_INTERVAL 1 /* The number of seconds to check the files for new data */
 #define IM_FILE_MAX_READ 50                /* The max number of logs to read in a single iteration */
 #define IM_FILE_DEFAULT_ACTIVE_FILES 10 /* The number of files which will be open at a time */
-// #define MAX_LINENUMBER_SIZE ~(sizeof(int64_t) * 8 - 1)
-
-static void im_file_input_get_filepos(nx_module_t *module, nx_im_file_input_t *file);
-
-// static void im_file_linenumber_recorder(nx_im_file_conf_t *imconf, nx_logdata_t *logdata) {
-//     if (imconf->currsrc->current_line_number >= MAX_LINENUMBER_SIZE) {
-//         imconf->currsrc->current_line_number = 0;
-//     }
-//     imconf->currsrc->current_line_number = imconf->currsrc->current_line_number + 1;
-//     nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
-// }
 
 static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
     nx_im_file_conf_t *imconf;
@@ -417,7 +406,7 @@ static boolean im_file_check_file(nx_module_t *module,
                         log_info("inode changed for '%s' (%d->%d): reopening possibly rotated file",
                                  fname, (int) (*file)->inode, (int) finfo.inode);
                         nx_config_cache_set_int(module->name, (*file)->name, 0);
-                        nx_config_cache_set_int(module->name, (*file)->line_number_key_name, 0);
+                        // nx_config_cache_set_int(module->name, (*file)->line_number_key_name, 0);
                         im_file_input_close(module, *file);
                         (*file)->filepos = 0;
                         // reset the inode
@@ -446,7 +435,7 @@ static boolean im_file_check_file(nx_module_t *module,
                             (*file)->new_size = finfo.size;
                             (*file)->size = 0;
                             nx_config_cache_set_int(module->name, (*file)->name, 0);
-                            nx_config_cache_set_int(module->name, (*file)->line_number_key_name, 0);
+                            // nx_config_cache_set_int(module->name, (*file)->line_number_key_name, 0);
                             retval = TRUE;
                             needopen = TRUE;
                         }
@@ -474,7 +463,7 @@ static boolean im_file_check_file(nx_module_t *module,
 
                 apr_hash_set(imconf->files, fname, APR_HASH_KEY_STRING, NULL);
                 nx_config_cache_remove(module->name, (*file)->name);
-                nx_config_cache_remove(module->name, (*file)->line_number_key_name);
+                // nx_config_cache_remove(module->name, (*file)->line_number_key_name);
                 im_file_input_close(module, *file);
                 apr_pool_destroy((*file)->pool);
                 *file = NULL;
@@ -958,8 +947,8 @@ static void im_file_read(nx_module_t *module) {
 
             nx_config_cache_set_int(module->name, imconf->currsrc->name,
                                     (int) imconf->currsrc->filepos);
-            nx_config_cache_set_int(module->name, imconf->currsrc->line_number_key_name,
-                                    imconf->currsrc->current_line_number);
+            // nx_config_cache_set_int(module->name, imconf->currsrc->line_number_key_name,
+                                    // imconf->currsrc->current_line_number);
             im_file_fill_buffer(module, imconf->currsrc, &got_eof);
             //log_info("set config cache filepos: %ld", imconf->currsrc->filepos);
             if (imconf->currsrc == NULL) {
@@ -1054,7 +1043,7 @@ static void im_file_config(nx_module_t *module) {
 
             try {
                         imconf->filename_expr = nx_expr_parse(module, curr->args, module->pool,
-                                                              curr->filename, curr->line_num, curr->argsstart);
+                                                              curr->filename,  curr->argsstart);
                         if (imconf->filename_expr == NULL) {
                             throw_msg("invalid or empty expression for File: '%s'", curr->args);
                         }
