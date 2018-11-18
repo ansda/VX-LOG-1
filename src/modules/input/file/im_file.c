@@ -29,11 +29,11 @@
 static void im_file_input_get_filepos(nx_module_t *module, nx_im_file_input_t *file);
 
 static void im_file_linenumber_recorder(nx_im_file_conf_t *imconf, nx_logdata_t *logdata) {
-    // if (imconf->currsrc->current_line_number >= MAX_LINENUMBER_SIZE) {
-    //     imconf->currsrc->current_line_number = 0;
-    // }
-    // imconf->currsrc->current_line_number = imconf->currsrc->current_line_number + 1;
-    // nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
+    if (imconf->currsrc->current_line_number >= MAX_LINENUMBER_SIZE) {
+        imconf->currsrc->current_line_number = 0;
+    }
+    imconf->currsrc->current_line_number = imconf->currsrc->current_line_number + 1;
+    nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
 }
 
 static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
@@ -57,7 +57,7 @@ static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
                 file->current_line_number = 0;
             }
             file->current_line_number = file->current_line_number + 1;
-            // nx_logdata_set_integer(logdata, "LineNumber", file->current_line_number);
+            nx_logdata_set_integer(logdata, "LineNumber", file->current_line_number);
             nx_module_add_logdata_input(module, file->input, logdata);
         }
     }
