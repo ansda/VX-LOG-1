@@ -24,17 +24,17 @@
 #define IM_FILE_DEFAULT_POLL_INTERVAL 1 /* The number of seconds to check the files for new data */
 #define IM_FILE_MAX_READ 50                /* The max number of logs to read in a single iteration */
 #define IM_FILE_DEFAULT_ACTIVE_FILES 10 /* The number of files which will be open at a time */
-#define MAX_LINENUMBER_SIZE ~(sizeof(int64_t) * 8 - 1)
+// #define MAX_LINENUMBER_SIZE ~(sizeof(int64_t) * 8 - 1)
 
 static void im_file_input_get_filepos(nx_module_t *module, nx_im_file_input_t *file);
 
-static void im_file_linenumber_recorder(nx_im_file_conf_t *imconf, nx_logdata_t *logdata) {
-    if (imconf->currsrc->current_line_number >= MAX_LINENUMBER_SIZE) {
-        imconf->currsrc->current_line_number = 0;
-    }
-    imconf->currsrc->current_line_number = imconf->currsrc->current_line_number + 1;
-    nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
-}
+// static void im_file_linenumber_recorder(nx_im_file_conf_t *imconf, nx_logdata_t *logdata) {
+//     if (imconf->currsrc->current_line_number >= MAX_LINENUMBER_SIZE) {
+//         imconf->currsrc->current_line_number = 0;
+//     }
+//     imconf->currsrc->current_line_number = imconf->currsrc->current_line_number + 1;
+//     nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
+// }
 
 static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
     nx_im_file_conf_t *imconf;
@@ -53,11 +53,11 @@ static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
         nx_logdata_t *logdata;
         if ((logdata = file->input->inputfunc->flush(file->input,
                                                      file->input->inputfunc->data)) != NULL) {
-            if (file->current_line_number >= MAX_LINENUMBER_SIZE) {
-                file->current_line_number = 0;
-            }
-            file->current_line_number = file->current_line_number + 1;
-            nx_logdata_set_integer(logdata, "LineNumber", file->current_line_number);
+            // if (file->current_line_number >= MAX_LINENUMBER_SIZE) {
+                // file->current_line_number = 0;
+            // }
+            // file->current_line_number = file->current_line_number + 1;
+            // nx_logdata_set_integer(logdata, "LineNumber", file->current_line_number);
             nx_module_add_logdata_input(module, file->input, logdata);
         }
     }
@@ -607,7 +607,7 @@ static boolean im_file_add_file(nx_module_t *module,
     const char *fname2;
     apr_ssize_t keylen;
     apr_hash_index_t *idx;
-    int64_t linenumber = 0;
+    // int64_t linenumber = 0;
 
     imconf = (nx_im_file_conf_t *) module->config;
 
@@ -631,14 +631,14 @@ static boolean im_file_add_file(nx_module_t *module,
             log_debug("module %s read saved position %ld for %s", module->name,
                       (long int) filepos, fname);
 
-            if (nx_config_cache_get_int(module->name, apr_pstrcat(pool, fname, "Count", NULL), &linenumber) == TRUE) {
-            }
+            // if (nx_config_cache_get_int(module->name, apr_pstrcat(pool, fname, "Count", NULL), &linenumber) == TRUE) {
+            // }
         }
 
         file = apr_pcalloc(pool, sizeof(nx_im_file_input_t));
         file->pool = pool;
         file->filepos = filepos;
-        file->current_line_number = linenumber;
+        // file->current_line_number = linenumber;
         file->name = apr_pstrdup(pool, fname);
         // file->line_number_key_name = apr_pstrcat(pool, fname, "Count", NULL);
 
