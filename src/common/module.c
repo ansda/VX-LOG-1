@@ -509,9 +509,9 @@ void nx_module_add_logdata_input(nx_module_t *module,
 	nx_logdata_set_string(logdata, "SourceModuleType", module->dsoname);
     }
 
-    nx_module_lock(module);
-    (module->evt_recvd)++;
-    nx_module_unlock(module);
+    // nx_module_lock(module);
+    // (module->evt_recvd)++;
+    // nx_module_unlock(module);
 
     if ( module->exec != NULL )
     {
@@ -652,9 +652,9 @@ void nx_module_add_logdata_input(nx_module_t *module,
 
     if ( sent == TRUE )
     {
-	nx_module_lock(module);
-	(module->evt_fwd)++;
-	nx_module_unlock(module);
+	// nx_module_lock(module);
+	// (module->evt_fwd)++;
+	// nx_module_unlock(module);
     }
 }
 

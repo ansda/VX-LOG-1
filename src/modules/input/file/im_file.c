@@ -947,7 +947,7 @@ static void im_file_read(nx_module_t *module) {
             (logdata = imconf->currsrc->input->inputfunc->func(
                     imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
             // log_info("read: [%s]", logdata->raw_event->buf);
-            // im_file_linenumber_recorder(imconf, logdata);
+            im_file_linenumber_recorder(imconf, logdata);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
             evcnt++;
