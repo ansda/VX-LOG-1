@@ -839,7 +839,7 @@ static void im_file_add_poll_event(nx_module_t *module, boolean delayed) {
     event->module = module;
     if (delayed == TRUE) {
         event->delayed = TRUE;
-        // event->time = apr_time_now() + (apr_time_t)(APR_USEC_PER_SEC * imconf->poll_interval);
+        event->time = apr_time_now() + (apr_time_t)(APR_USEC_PER_SEC * imconf->poll_interval);
     } else {
         event->delayed = FALSE;
     }
@@ -946,7 +946,7 @@ static void im_file_read(nx_module_t *module) {
         if ((imconf->currsrc->input != NULL) &&
             (logdata = imconf->currsrc->input->inputfunc->func(
                     imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
-            //log_info("read: [%s]", logdata->raw_event->buf);
+            log_info("read: [%s]", logdata->raw_event->buf);
             im_file_linenumber_recorder(imconf, logdata);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
@@ -1017,7 +1017,7 @@ static void im_file_read(nx_module_t *module) {
     if (nx_module_get_status(module) == NX_MODULE_STATUS_RUNNING) {
         boolean delayed = FALSE;
 
-        //log_debug("evcnt: %d", evcnt);
+        log_info("evcnt: %d", evcnt);
 
         if (evcnt < IM_FILE_MAX_READ) {
             if (evcnt == 0) {
