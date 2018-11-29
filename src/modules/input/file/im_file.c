@@ -839,7 +839,7 @@ static void im_file_add_poll_event(nx_module_t *module, boolean delayed) {
     event->module = module;
     if (delayed == TRUE) {
         event->delayed = TRUE;
-        event->time = apr_time_now() + (apr_time_t)(APR_USEC_PER_SEC * imconf->poll_interval);
+        // event->time = apr_time_now() + (apr_time_t)(APR_USEC_PER_SEC * imconf->poll_interval);
     } else {
         event->delayed = FALSE;
     }
