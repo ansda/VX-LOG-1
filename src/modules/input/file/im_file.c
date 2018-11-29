@@ -1158,7 +1158,7 @@ static void im_file_read(nx_module_t *module)
                                     (int)imconf->currsrc->filepos);
             nx_config_cache_set_int(module->name, imconf->currsrc->line_number_key_name,
                                     imconf->currsrc->current_line_number);
-            nx_logdata_set_string(logdata, "source", imconf->hostname);                                    
+                                              
             im_file_fill_buffer(module, imconf->currsrc, &got_eof);
             //log_info("set config cache filepos: %ld", imconf->currsrc->filepos);
             if (imconf->currsrc == NULL)
