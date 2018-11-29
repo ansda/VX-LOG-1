@@ -116,7 +116,7 @@ static void im_file_fill_buffer(nx_module_t *module, nx_im_file_input_t *file, b
     ASSERT(input->bufstart + input->buflen <= input->bufsize);
 
     len = (apr_size_t)(input->bufsize - (input->buflen + input->bufstart));
-    log_info("bufstart: %d, buflen: %d", input->buf + input->bufstart + input->buflen, len);
+    log_info("bufstart: %d, buflen: %d", input->buf + input->bufstart + input->buflen, input->bufsize - (input->buflen + input->bufstart));
     rv = apr_file_read(input->desc.f, input->buf + input->bufstart + input->buflen, &len);
 
     if (rv != APR_SUCCESS) {
