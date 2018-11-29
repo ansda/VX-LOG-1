@@ -41,6 +41,7 @@ typedef struct nx_im_file_conf_t
     nx_expr_t   	*filename_expr;
     boolean		filename_const;	///< Set to TRUE if the filename is not a dynamic string
     char		filename[APR_PATH_MAX];
+    char        *hostname;
     boolean 		savepos;
     boolean		readfromlast;
     boolean		recursive;
