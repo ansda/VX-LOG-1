@@ -116,7 +116,7 @@ static void im_file_fill_buffer(nx_module_t *module, nx_im_file_input_t *file, b
     ASSERT(input->bufstart + input->buflen <= input->bufsize);
 
     len = (apr_size_t)(input->bufsize - (input->buflen + input->bufstart));
-    log_info("bufstart: %d, buflen: %d", input->buf + input->bufstart + input->buflen, input->bufsize - (input->buflen + input->bufstart));
+    // log_info("bufstart: %d, buflen: %d", input->buf + input->bufstart + input->buflen, input->bufsize - (input->buflen + input->bufstart));
     rv = apr_file_read(input->desc.f, input->buf + input->bufstart + input->buflen, &len);
 
     if (rv != APR_SUCCESS) {
@@ -947,7 +947,7 @@ static void im_file_read(nx_module_t *module) {
             (logdata = imconf->currsrc->input->inputfunc->func(
                     imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
             // log_info("read: [%s]", logdata->raw_event->buf);
-            im_file_linenumber_recorder(imconf, logdata);
+            // im_file_linenumber_recorder(imconf, logdata);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
             evcnt++;
@@ -1017,7 +1017,7 @@ static void im_file_read(nx_module_t *module) {
     if (nx_module_get_status(module) == NX_MODULE_STATUS_RUNNING) {
         boolean delayed = FALSE;
 
-        log_info("evcnt: %d", evcnt);
+        // log_info("evcnt: %d", evcnt);
 
         if (evcnt < IM_FILE_MAX_READ) {
             if (evcnt == 0) {
