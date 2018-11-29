@@ -105,7 +105,7 @@ static void im_file_fill_buffer(nx_module_t *module, nx_im_file_input_t *file, b
     ASSERT(file->input->desc_type == APR_POLL_FILE);
     ASSERT(file->input->desc.f != NULL);
 
-    //log_info("bufstart: %d, buflen: %d", input->bufstart, input->buflen);
+    log_info("bufstart: %d, buflen: %d", input->bufstart, input->buflen);
 
     if (input->bufstart == input->bufsize) {
         input->bufstart = 0;
