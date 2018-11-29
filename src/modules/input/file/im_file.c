@@ -36,6 +36,7 @@ static void im_file_linenumber_recorder(nx_im_file_conf_t *imconf, nx_logdata_t 
     nx_logdata_set_integer(logdata, "LineNumber", imconf->currsrc->current_line_number);
 }
 
+
 static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file) {
     nx_im_file_conf_t *imconf;
 
