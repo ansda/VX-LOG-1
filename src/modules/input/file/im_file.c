@@ -65,7 +65,6 @@ static void im_file_input_close(nx_module_t *module, nx_im_file_input_t *file)
             }
             file->current_line_number = file->current_line_number + 1;
             nx_logdata_set_integer(logdata, "LineNumber", file->current_line_number);
-            nx_logdata_set_string(logdata, "source", imconf->hostname);
             nx_module_add_logdata_input(module, file->input, logdata);
         }
     }
@@ -1145,7 +1144,6 @@ static void im_file_read(nx_module_t *module)
         {
             // log_info("read: [%s]", logdata->raw_event->buf);
             im_file_linenumber_recorder(imconf, logdata);
-            nx_logdata_set_string(logdata, "source", imconf->hostname);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
             evcnt++;
@@ -1158,7 +1156,7 @@ static void im_file_read(nx_module_t *module)
                                     (int)imconf->currsrc->filepos);
             nx_config_cache_set_int(module->name, imconf->currsrc->line_number_key_name,
                                     imconf->currsrc->current_line_number);
-                                              
+
             im_file_fill_buffer(module, imconf->currsrc, &got_eof);
             //log_info("set config cache filepos: %ld", imconf->currsrc->filepos);
             if (imconf->currsrc == NULL)
@@ -1170,7 +1168,6 @@ static void im_file_read(nx_module_t *module)
                      imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL)
             {
                 im_file_linenumber_recorder(imconf, logdata);
-                nx_logdata_set_string(logdata, "source", imconf->hostname);
                 nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
                 got_data = TRUE;
                 evcnt++;
@@ -1206,7 +1203,6 @@ static void im_file_read(nx_module_t *module)
                                                                      file->input->inputfunc->data)) != NULL)
                         {
                             im_file_linenumber_recorder(imconf, logdata);
-                            nx_logdata_set_string(logdata, "source", imconf->hostname);
                             nx_module_add_logdata_input(module, file->input, logdata);
                             evcnt++;
                         }
@@ -1359,10 +1355,6 @@ static void im_file_config(nx_module_t *module)
             {
                 nx_conf_error(curr, "invalid ActiveFiles directive: %s", curr->args);
             }
-        }
-        else if (strcasecmp(curr->directive, "hostname") == 0)
-        {
-            imconf->hostname = curr->args;
         }
         else
         {
