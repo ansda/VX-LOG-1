@@ -22,7 +22,7 @@
 #define NX_LOGMODULE NX_LOGMODULE_MODULE
 
 #define IM_FILE_DEFAULT_POLL_INTERVAL 1 /* The number of seconds to check the files for new data */
-#define IM_FILE_MAX_READ 50                /* The max number of logs to read in a single iteration */
+#define IM_FILE_MAX_READ 500                /* The max number of logs to read in a single iteration */
 #define IM_FILE_DEFAULT_ACTIVE_FILES 10 /* The number of files which will be open at a time */
 #define MAX_LINENUMBER_SIZE ~(sizeof(int64_t) * 8 - 1)
 
@@ -946,7 +946,7 @@ static void im_file_read(nx_module_t *module) {
         if ((imconf->currsrc->input != NULL) &&
             (logdata = imconf->currsrc->input->inputfunc->func(
                     imconf->currsrc->input, imconf->currsrc->input->inputfunc->data)) != NULL) {
-            log_info("read: [%s]", logdata->raw_event->buf);
+            // log_info("read: [%s]", logdata->raw_event->buf);
             im_file_linenumber_recorder(imconf, logdata);
             nx_module_add_logdata_input(module, imconf->currsrc->input, logdata);
             got_data = TRUE;
